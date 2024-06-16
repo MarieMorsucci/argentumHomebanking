@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 function LoanForm(event) {
+
   useEffect(() => {
     setTimeout(() => {
       getLoans();
@@ -18,7 +19,7 @@ function LoanForm(event) {
   const [loans, setLoans] = useState({});
   const [loan, setLoan] = useState({});
   const [accounts, setAccounts] = useState({});
-  const [selectedLoanName, setSelectedLoanName] = useEffect([]);
+  const [selectedLoanName, setSelectedLoanName] = useState({});
 
   //  PARA EL POST
   const [amount, setAmount] = useState("");
@@ -62,16 +63,17 @@ function LoanForm(event) {
 
   //HACER AUTOMATICOS LOS LOANS
   function getSelectedOption(event) {
-    event.preventDefault();
-    const selectLoanName = event.target.value;
-    console.log(selectLoanName);
-    setSelectedLoanName(selectLoanName);
+    //event.preventDefault();
+    const loanName = event.target.value;
+    console.log(loanName);
+    setSelectedLoanName(loanName);
   }
 
   useEffect(() => {
     if (selectedLoanName) {
       const selectedLoan = loans.find((loan) => loan.name == selectedLoanName);
       if (selectedLoan) {
+        setLoan(selectedLoan)
         setPayments(selectedLoan.payments);
         setAmount(selectedLoan.amount);
       }
@@ -106,12 +108,7 @@ function LoanForm(event) {
           </h2>
           <form className="space-y-5 flex flex-col justify-center">
             <p className="font-bold text-center ">Select a Loan</p>
-            <select
-              onChange={getSelectedOption}
-              value={loan}
-              className="w-full h-12 border border-sky-700 px-3 rounded-lg"
-              id="loanName"
-            >
+            <select onChange={getSelectedOption} value={loan} className="w-full h-12 border border-sky-700 px-3 rounded-lg"  id="loanName" >
               {loading ? (
                 <option value="">Select an option</option>
               ) : (
