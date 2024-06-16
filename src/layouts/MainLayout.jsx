@@ -1,18 +1,18 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Main from "../components/Main";
+import { useSelector } from "react-redux";
 
 function MainLayout({ children }) {
+  const { loggedIn } = useSelector((store) => store.authReducer);
+
   return (
-    <div className="min-h-screen flex flex-col justify-between ">
-      <div className="min-h-full flex ">
-        <Header />
-        <Main>
-          {children}
-        </Main>
+    <div className=" min-h-screen w-full flex flex-col justify-between">
+      <div className="flex-grow flex ">
+        {loggedIn && <Header />}
+        <main className=" w-screen bg-slate-200  ">{children}</main>
       </div>
-        <Footer />
+      <Footer />
     </div>
   );
 }

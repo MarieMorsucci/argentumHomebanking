@@ -1,11 +1,25 @@
 import React from 'react'
+import { useEffect } from 'react'
 
 function Footer() {
+
+  useEffect(() => {
+
+    console.log('Me monte')
+
+    return()=>{
+      console.log('Me desmonte')
+    }
+  }, [])
+  
+
+
+
   return (
-    <footer className="h-[50px] bg-cyan-950 flex">
+    <footer className="min-h-[50px] w-full bg-cyan-950 flex">
         <p className="text-white p-4 w-2/4 text-center">Argentum Bank &reg; </p>
         <div className="w-2/4 flex justify-around">
-          <a href="#">
+          <a href="#" target='_blank'>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="icon icon-tabler icon-tabler-brand-whatsapp"
@@ -23,7 +37,7 @@ function Footer() {
               <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
             </svg>
           </a>
-          <a href="#">
+          <a href="#" target='_blank'>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="icon icon-tabler icon-tabler-brand-instagram"
@@ -42,7 +56,7 @@ function Footer() {
               <path d="M16.5 7.5l0 .01" />
             </svg>
           </a>
-          <a href="#">
+          <a href="#" target='_blank'>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="icon icon-tabler icon-tabler-brand-facebook"

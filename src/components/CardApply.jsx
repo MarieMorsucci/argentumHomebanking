@@ -1,9 +1,28 @@
 import React from "react";
-import { Link as LinkRR } from "react-router-dom";
 import ButtonTermsAndConditions from "./ButtonTermsAndConditions";
-import ButtonGetIt from "./ButtonGetIt";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 function CardApply() {
+
+  const navigate = useNavigate();
+
+  function applyCard(event) {
+
+    event.preventDefault();
+
+    let click = confirm("Are you sure to apply for another card?");
+
+    if (click) {
+      alert("Your request has been sent successfully");
+      setTimeout(() => {
+       navigate("/home");
+      }, 3000);
+    }
+  }
+
   return (
     <div className="p-6 h-screen flex items-center justify-center ">
       <div className="relative">
@@ -37,9 +56,15 @@ function CardApply() {
               <option value="credit">TITANIUM</option>
             </select>
 
-            <ButtonTermsAndConditions/>
+            <ButtonTermsAndConditions />
 
-            <ButtonGetIt/>
+            <button
+              onClick={applyCard}
+              className="bg-gradient-to-r from-sky-800 to-gray-400 hover:from-sky-900 hover:to-gray-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
+            >
+              GET IT!
+            </button>
+           
           </form>
         </div>
       </div>

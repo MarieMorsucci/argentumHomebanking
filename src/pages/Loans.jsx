@@ -2,28 +2,56 @@ import React, { useEffect, useState } from "react";
 import Loan from "../components/Loan";
 import BannerCarrousel from "../components/BannerCarrousel";
 import { NavLink as LinkRR } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Loans() {
   //Va a venir por prop directamente el usuario
 
-  const [data, setData] = useState([]);
+  
+  useEffect(() => {
+    setTimeout(() => {
+      getLoans();
+    }, 1000);
+  }, []);
 
-  async function getData() {
+  const [loading, setLoading] = useState(true);
+
+  const [loans, setLoans] = useState({
+    id:'',
+    amount:'',
+    payments:'',
+    loan_name:''
+  });
+
+  const token = useSelector((store) => store.authReducer.user.token);
+
+  async function getLoans() {
     try {
-      let response = await axios.get("http://localhost:8080/api/clients/1");
-      console.log(response);
-      setData(response.data);
+      let response = await axios.get("http://localhost:8080/api/auth/current",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+        }
+      })
+      let data = response.data.loans;
+      console.log(data);
+      setLoans(data);
+
+
+      setLoading(false);
+
+
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      
     }
   }
 
-  useEffect(() => {
-    getData();
-  }, []);
+
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="p-3 flex flex-col justify-center">
       <h1 className="h-3/5 p-3 font-bold text-center text-4xl text-sky-950 ">
         MY LOANS
       </h1>
@@ -32,21 +60,16 @@ function Loans() {
       </div>
 
       <div className="p-5 flex flex-wrap justify-around gap-4">
-        <Loan
-          typeLoan={"Automotive"}
-          amountLoan={120000}
-          creationLoan={"24/8/2014"}
-        />
-        <Loan
-          typeLoan={"Hipotecario"}
-          amountLoan={140000}
-          creationLoan={"24/8/2014"}
-        />
-        <Loan
-          typeLoan={"Personal"}
-          amountLoan={120000}
-          creationLoan={"24/8/2014"}
-        />
+
+        {loading ? 
+        (<p>Loading</p>)
+        :
+        (
+        loans.map((loan)=> 
+        <Loan key={loan.id} id={loan.id} amount={loan.amount} payments={loan.payments} loan_name={loan.loan_name}/>
+        )
+      )}
+       
       </div>
       <div className="flex flex-wrap justify-center p-6">
         <p className=" p-2 font-semibold text-center w-full ">
