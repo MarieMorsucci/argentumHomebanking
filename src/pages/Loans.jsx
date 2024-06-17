@@ -52,11 +52,9 @@ function Loans() {
   }
 
   return (
-    <div className="p-3 flex flex-col justify-center">
-      <h1 className="h-3/5 p-3 font-bold text-center text-4xl text-sky-950 ">
-        MY LOANS
-      </h1>
-      <div className="h-56 w-full sm:h-64 xl:h-80 2xl:h-96">
+    <div className="flex flex-col justify-center">
+      
+      <div className=" h-56 sm:h-64 xl:h-80 2xl:h-80 md:object-right-bottom">
         <BannerCarrousel />
       </div>
 
@@ -82,7 +80,7 @@ function Loans() {
             Make your dreams true! Get a loan!
           </p>
 
-          <button className="bg-gradient-to-r from-sky-700 to-lime-500 hover:from-sky-800 hover:to-lime-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+          <button className="bg-gradient-to-r from-sky-800 to-gray-400 hover:from-sky-900 hover:to-gray-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
             <LinkRR
               className={(isActive) => (isActive ? "active" : "disable")}
               to="/loans/apply"

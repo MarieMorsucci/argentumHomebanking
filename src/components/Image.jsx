@@ -4,7 +4,7 @@ function Image({src}) {
 
   return (
     <>
-       <img src={src} alt="..." /> 
+       <img className='w-full' src={src} alt="..." /> 
     </>
   )
 }

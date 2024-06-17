@@ -7,10 +7,12 @@ function MainLayout({ children }) {
   const { loggedIn } = useSelector((store) => store.authReducer);
 
   return (
-    <div className=" min-h-screen w-full flex flex-col justify-between">
+    <div className=" min-h-screen min-w-screen flex flex-col justify-between">
       <div className="flex-grow flex ">
         {loggedIn && <Header />}
-        <main className=" w-screen bg-slate-200  ">{children}</main>
+        <main class="w-full bg-slate-300">
+          {children}
+        </main>
       </div>
       <Footer />
     </div>

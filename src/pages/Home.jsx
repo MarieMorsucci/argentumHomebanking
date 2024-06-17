@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 //no hace falta instancialo, para obtener la info que viene del reductor
 
 import CardAccount from "../components/CardAccount";
@@ -52,19 +52,15 @@ function Home() {
   async function createAccount(event) {
     event.preventDefault();
 
-    let click2 = 
-    Swal.fire({
+    let click2 = Swal.fire({
       title: "Do you want to create another account?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: false,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes, delete it!",
     });
-
-
-
 
     if (click2) {
       try {
@@ -95,23 +91,28 @@ function Home() {
             icon: "error",
             title: "Oops...",
             text: `${error.response.data}`,
-            footer: '',
+            footer: "",
           });
           navigate("/home");
-          console.log(error);
         }, 2000);
       }
     }
   }
 
   return (
-    <div className="h-screen p-3 flex flex-col justify-between">
-      <div className="w-full p-6">
-        <h1 className="font-bold text-center text-4xl text-[#A5BDDC] text-sky-950 ">
-          Welcome to Argentum Bank {name} !!
+    <div className=" h-full flex flex-col grow justify-between ">
+      <div className=" w-full ">
+
+        <img
+          src="/assets/images/im1.jpg"
+          alt="image_bank"
+          className="h-40 w-full object-cover"
+        />
+        <h1  className=" font-bold text-center text-4xl text-[#A5BDDC] text-sky-950 p-2">
+          Welcome to Argentum Bank {name}
         </h1>
       </div>
-      <div className=" flex flex-wrap gap-5 p-2 justify-around">
+      <div className="h-full flex flex-wrap content-center gap-10 mt-25 justify-center pt-4 pb-4 bg-slate-600 opacity-80">
         {accounts &&
           accounts.map((account) => (
             <CardAccount
@@ -124,7 +125,7 @@ function Home() {
       </div>
 
       {isActive && (
-        <div className="flex flex-wrap justify-center p-6">
+        <div className="  flex flex-wrap justify-center p-6">
           <p className="  font-semibold text-center w-full ">
             Do you need another account?
           </p>
@@ -135,6 +136,7 @@ function Home() {
           >
             Get Another Account
           </button>
+          <div></div>
         </div>
       )}
     </div>

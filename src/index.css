@@ -8,5 +8,15 @@
   box-sizing: border-box;
  font-family: "Montserrat-Medium"; */
 
-  outline: solid green 1px ; 
+  /* outline: solid green 1px ; */
+  
   }
+.main{
+background-image: "https://www.hubspot.com/hs-fs/hubfs/media/cssselectores.jpeg?width=595&height=400&name=cssselectores.jpeg";
+object-fit: cover;
+opacity: 80;
+height: fit-content;
+width: fit-content;
+z-index: 0;
+
+}

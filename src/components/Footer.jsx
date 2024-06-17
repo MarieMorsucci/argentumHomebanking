@@ -12,11 +12,8 @@ function Footer() {
     }
   }, [])
   
-
-
-
   return (
-    <footer className="min-h-[50px] w-full bg-cyan-950 flex">
+    <footer className="min-h-[50px] min-w-screen bg-cyan-950 flex">
         <p className="text-white p-4 w-2/4 text-center">Argentum Bank &reg; </p>
         <div className="w-2/4 flex justify-around">
           <a href="#" target='_blank'>

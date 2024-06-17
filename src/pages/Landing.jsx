@@ -37,28 +37,26 @@ function Landing() {
   return (
     <div className=" flex content-between relative h-screen w-full">
       <div
-        className="absolute inset-0 bg-cover bg-center -z-10"
+        className="absolute inset-0 bg-cover bg-center "
         style={{
           backgroundImage:
             "url('https://img.freepik.com/foto-gratis/vista-frontal-colega-trabajo-mirando-portatil_23-2148327004.jpg')",
         }}
       >
-        <div className="flex p-3 justify-end gap-3 bg-slate-800 opacity-70 z-10">
-          <button
-            type="submit"
-            onClick={handleLogin}
+        <div className="flex p-3 justify-end gap-3 bg-slate-800 opacity-70 ">
+          <LinkRR
+            to="/login"
             className="bg-gradient-to-r from-sky-800 to-gray-400 hover:from-sky-900 hover:to-gray-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
           >
             LOGIN
-          </button>
+          </LinkRR>
 
-          <button
-            type="submit"
-            onClick={handleLogin}
+          <LinkRR
+            to="/register"
             className="bg-gradient-to-r from-sky-800 to-gray-400 hover:from-sky-900 hover:to-gray-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
           >
             REGISTER
-          </button>
+          </LinkRR>
         </div>
         <div className="flex justify-center p-6">
           <img
@@ -68,7 +66,7 @@ function Landing() {
           />
         </div>
       </div>
-      <div className="w-full z-10 flex flex-col content-end justify-end h-full text-white bg-opacity-50">
+      <div className="w-full  flex flex-col content-end justify-end h-full text-white bg-opacity-50">
         <div className="  flex flex-wrap justify-center mb-8 bg-slate-800 opacity-70 p-4 pt-6  gap-4">
           {benefits.map((benefit, index) => (
             <BenefitCard key={index} benefit={benefit} />

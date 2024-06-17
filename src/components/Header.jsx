@@ -15,18 +15,24 @@ function Header() {
 
   const handleLogout = () =>{
     //localStorage.removeItem("token");
-    dispatch(logout());
-    navigate("/");
+    const resp= confirm("Are you sure to leave the page?")
+    if(resp){
+      dispatch(logout());
+      navigate("/");
+
+    }
+
+
 
   }
 
 
 
   return (
-    <header className=" min-w-2/6 pl-4 bg-cyan-950 opacity-95 flex flex-col justify-center items-center ">
+    <header className="min-w-2/6 pl-4 bg-slate-900 opacity-95 flex flex-col justify-around items-center ">
       <img
         src="/assets/images/argentum_logo.png"
-        className="h-[300px] object-contain p-2"
+        className="max-h-[200px] object-contain p-2"
         alt="logo"
       />
 
