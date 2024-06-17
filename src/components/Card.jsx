@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 
 function Card({ type, cardholder, color, cvv, number, fromDate, thruDate }) {
   const [colorin, setColorin] = useState("");
+  const [isToggled, setIsToggled] = useState(true);
+
+  const handleClick = () => {
+    setIsToggled(!isToggled);
+  };
 
   useEffect(() => {
     switch (color) {
@@ -42,14 +47,19 @@ function Card({ type, cardholder, color, cvv, number, fromDate, thruDate }) {
               <p className="self-end">Thru Date</p>
               <p className="self-end">{thruDate}</p>
             </div>
-            <p className="text-2xl  font-medium">{cvv}</p>
-          </div>
-          <div className="self-center">
-            <img
-              className="w-[50px] h-[50px] rounded-full"
-              src="/public/assets/images/argentum_logo.png"
-              alt="logo"
-            />
+             
+              <button
+                type="button"
+                onClick={handleClick}
+                className="text-white hover:text-white border  hover:bg-red-800 focus:ring-1 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:text-white dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+              >
+               `{isToggled ? 'Show cvv'  : cvv}`
+
+              </button>
+       
+          
+
+            
           </div>
         </div>
       </div>

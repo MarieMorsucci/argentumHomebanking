@@ -6,10 +6,17 @@ function TransactionRow({date, type,amount,description,id}) {
       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" >
         {date}
       </th>
-      <td class="px-6 py-4">{type}</td>
-      <td class="px-6 py-4">{amount}</td>
-      <td class="px-6 py-4">{description}</td>
-      <td class="px-6 py-4">{id}</td>
+      {
+        type === "CREDIT" ?
+        ( <td className="px-6 py-4 font-bold text-red-700">{type}</td>)
+        
+        :
+        (<td className="px-6 py-4 font-bold text-green-700">{type}</td>)
+         
+      }
+      <td className="px-6 py-4">{amount}</td>
+      <td className="px-6 py-4">{description}</td>
+      <td className="px-6 py-4">{id}</td>
      
     </tr>
   );

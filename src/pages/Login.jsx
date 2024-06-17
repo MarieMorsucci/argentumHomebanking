@@ -7,14 +7,14 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 function Login() {
+  
   useEffect(() => {
     setTimeout(() => {
-      <p>LOADING.....!</p>;
       handleLogin();
     }, 2000);
   }, []);
 
-  const [loading, setLoading] = useState(true);
+  
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ function Login() {
     try {
       //aca ha que reemplazar por un get element by id
       const user = {
-        email: "melba@dominio.com",
-        password: "123",
+        email: `${email}`,
+        password: `${password}`,
       };
 
       //Hacer el login con axios
@@ -55,7 +55,7 @@ function Login() {
 
       dispatch(login(client));
 
-      setLoading(false);
+      
 
       setTimeout(() => {
         navigate("/home");
@@ -67,10 +67,19 @@ function Login() {
   };
 
   return (
-    <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6">Iniciar Sesión</h2>
+    <div className="h-screen flex flex-col justify-around bg-slate-800 bg-opacity-80 p-8 rounded-lg shadow-lg">
+      
+      <div className=" flex justify-center  self-center sel">
+          <img
+            src="/assets/images/argentum_logo.png"
+            className="h-[200px] md:min-h-[300px] object-contain rounded-md"
+            alt="logo"
+          />
+        </div>
+      
+      <h2 className="text-4xl text-center text-[#bacbf0] font-bold mb-6"> LOGIN </h2>
      
-      <form className="space-y-5 flex flex-col justify-center" action="post">
+      <form className="p-4 space-y-5 flex flex-col justify-center bg-white rounded-md" action="post">
         <label htmlFor="email" className="p-2 w-full text-center font-bold">
           <input
           value={email}
@@ -95,8 +104,8 @@ function Login() {
           />
         </label>
 
-        <div>
-          <a class="text-sm text-[#7747ff]" href="#">
+        <div className="text-center" >
+          <a class="w-full text-sm text-center text-sky-800" href="#">
             Forgot your password?
           </a>
         </div>
@@ -113,9 +122,9 @@ function Login() {
 
 
 
-      <div class="text-sm text-center mt-[1.6rem]">
+      <div class="text-sm text-center mt-[1.6rem] text-white">
         Don’t have an account yet?{" "}
-        <a className="text-sm text-[#7747ff] " href="#">
+        <a className="text-sm text-[#bacbf0] " href="#">
           <LinkRR to="/register">Apply Now!</LinkRR>
         </a>
       </div>

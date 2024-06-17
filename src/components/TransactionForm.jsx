@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Swal from 'sweetalert2';
+
 import Options from "../components/Options";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-function LoanForm(event) {
+function TransactionForm(event) {
   useEffect(() => {
     setTimeout(() => {
-      getLoans();
+      getAccounts();
     }, 100);
   }, []);
 
@@ -16,42 +16,31 @@ function LoanForm(event) {
   const [loading, setLoading] = useState(true);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  const [loans, setLoans] = useState([]);
   const [accounts, setAccounts] = useState({});
-  const [selectedLoanName, setSelectedLoanName] = useState("Personal");
-  const [loan, setLoan] = useState({ maxAmount: 0 });
+  const [selectedNumberAccount, setSelectedNumberAccount] = useState("");
 
   //  PARA EL POST
-  const [amount, setAmount] = useState(0);
-  const [payments, setPayments] = useState();
+  const [balance, setBalance] = useState(0);
+  
+  const [sourceAccount, setSourceAccount] = useState("");
   const [destinationAccount, setDestinationAccount] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [description, setDescription] = useState("");
+
 
   const token = useSelector((store) => store.authReducer.user.token);
 
-  async function getLoans() {
+  async function getAccounts() {
     try {
-      //OBTENER LOS LOANS DISPONIBLES
-
-      let response = await axios.get("http://localhost:8080/api/loans/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      let data = response.data;
-      console.log(data);
-      setLoans(data);
-      console.log(loans);
-
       //OBTENER LAS CUENTAS DE USUARIO
-      let respon = await axios.get("http://localhost:8080/api/auth/current", {
+      let response = await axios.get("http://localhost:8080/api/auth/current", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      let dat = respon.data.accounts;
+      let data = response.data.accounts;
 
-      setAccounts(dat);
+      setAccounts(data);
       console.log(accounts);
 
       setLoading(false);
@@ -62,65 +51,60 @@ function LoanForm(event) {
 
   //HACER AUTOMATICOS LOS LOANS
   function getSelectedOption(event) {
-    //event.preventDefault();
-    const loanName = event.target.value;
-    console.log(loanName);
-    setSelectedLoanName(loanName);
+    event.preventDefault();
+    const accountSource = event.target.value;
+    console.log(accountSource);
+    setSelectedNumberAccount(accountSource);
   }
 
   useEffect(() => {
-    if (selectedLoanName) {
-      const selectedLoan = loans.find((loan) => loan.name == selectedLoanName);
-      setLoan(selectedLoan);
-
-      console.log(selectedLoan);
-      console.log(loan);
+    if (selectedNumberAccount) {
+      const account = accounts.find(
+        (account) => account.numberAccount == selectedNumberAccount
+      );
+      setSourceAccount(account.numberAccount);
+      setBalance(account.balance);
+      console.log(sourceAccount);
     }
-  }, [selectedLoanName, loan]);
+  }, [selectedNumberAccount, sourceAccount]);
 
-  async function applyLoan(event) {
+  async function makeTransaction(event) {
+
     event.preventDefault();
 
     let click = confirm("Are you sure to apply to this loan?");
-
-    if (click) {
-      try {
-        const createClientLoan = {
-          name: `${selectedLoanName}`,
-          amountApply: amount,
-          paymentsApply: payments,
-          accountNumber: `${destinationAccount}`,
-        };
-        console.log(createClientLoan);
-
-        const send = await axios.post("http://localhost:8080/api/loans/current/apply",createClientLoan,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        
+        if (click) {
+          try {
+            const createTransaction = {
+              amount: amount,
+              description: `${description}`,
+              originNumber: `${sourceAccount}`,
+             destinationNumber: `${destinationAccount}`
+            };
+            console.log(createTransaction);
+    
+            const send = await axios.post(
+              "http://localhost:8080/api/transactions/current/transaction", createTransaction,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+    
+            console.log(send.data);
+    
+            alert("Your transaction has been sent successfully");
+            setTimeout(() => {
+              navigate("/home");
+            }, 3000);
+          } catch (error) {
+            alert("Form is not valid. Check info and Terms&Conditions");
+            console.log(error);
           }
-        );
-
-        console.log(send.data);
-
-        Swal.fire({
-          title: 'Error!',
-          text: 'Do you want to continue',
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-        //alert("Your request has been sent successfully");
-
-        setTimeout(() => {
-          navigate("/loans");
-        }, 3000);
-
-      } catch (error) {
-        alert("Form is not valid. Check info and Terms&Conditions");
-        console.log(error);
-      }
+        }
     }
-  }
 
   return (
     <div className="p-6 h-screen flex items-center justify-center ">
@@ -134,38 +118,23 @@ function LoanForm(event) {
             id="form-title"
             className="text-center text-3xl font-bold mb-10 text-sky-700"
           >
-            LOAN APPLICATION
+            NEW TRANSACTION
           </h2>
           <form
-            onSubmit={applyLoan}
+            onSubmit={makeTransaction}
             className="space-y-5 flex flex-col justify-center"
           >
-            <p className="font-bold text-center ">Select a Loan</p>
+            <p className="font-bold text-center ">Select Source Account</p>
             <select
               onChange={getSelectedOption}
-              value={selectedLoanName}
+              value={selectedNumberAccount}
               className="w-full h-12 border border-sky-700 px-3 rounded-lg"
               id="loanName"
             >
               {loading ? (
-                <option value="">Select an option</option>
+                <option value="">Choose one..</option>
               ) : (
-                loans.map((loan) => (
-                  <Options key={loan.name} value={loan.name} name={loan.name} />
-                ))
-              )}
-            </select>
-
-            <p className="font-bold text-center ">Origin Account</p>
-            <select
-              className="w-full h-12 border border-sky-700 px-3 rounded-lg"
-              id="destinationAccount"
-              onChange={(e) => setDestinationAccount(e.target.value)}
-              value={destinationAccount}
-            >
-              {loading ? (
-                <option value="">Loading..</option>
-              ) : (
+                accounts &&
                 accounts.map((account) => (
                   <Options
                     key={account.numberAccount}
@@ -176,36 +145,42 @@ function LoanForm(event) {
               )}
             </select>
 
-            <label htmlFor="amountLoan" className="p-2 w-full ">
+            <p className="font-bold text-center ">Destination Account</p>
+            <input
+              className="w-full h-12 border border-sky-700 px-3 rounded-lg"
+              type="text"
+              id="destinationAccount"
+              onChange={(e) => setDestinationAccount(e.target.value)}
+              value={destinationAccount}
+              placeholder="Destination Account Number..."
+            />
+
+            <label htmlFor="amount" className="p-2 w-full ">
               Amount($)
               <input
                 className="w-full text-center font-bold"
                 type="number"
-                id="amountLoan"
+                id="amount"
                 placeholder="$"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
-              <p className="italic p-8 text-red-600">
-                Max amount for this type of loan is ${loan && loan.maxAmount}
-              </p>
-              <p className="font-bold text-center ">Payments</p>
-              <select
-                className="w-full h-12 border border-sky-700 px-3 rounded-lg"
-                id="payments"
-                value={payments}
-                onChange={(e) => setPayments(e.target.value)}
-                placeholder="Choose number of payments"
-              >
-                {loading ? (
-                  <option value="">Loading...</option>
-                ) : (
-                  loan &&
-                  loan.payments.map((payment) => (
-                    <Options key={payment} name={payment} value={payment} />
-                  ))
-                )}
-              </select>
+            </label>
+
+            <p className="italic p-8 text-red-600">
+              Max amount for this type of loan is ${balance && balance}
+            </p>
+
+            <label htmlFor="description" className="p-2 w-full ">
+             Transaction Description
+              <input
+                className="w-full text-center font-bold"
+                type="text"
+                id="description"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </label>
 
             <label className="flex cursor-pointer items-center justify-between p-1 text-slate-400">
@@ -238,4 +213,4 @@ function LoanForm(event) {
   );
 }
 
-export default LoanForm;
+export default TransactionForm;

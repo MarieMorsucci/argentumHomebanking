@@ -9,7 +9,9 @@ function Cards() {
 
   useEffect(() => {
     setTimeout(() => {
+      
       getCards();
+
     }, 2000);
   }, []);
 
@@ -64,7 +66,8 @@ function Cards() {
         <div className="flex flex-wrap justify-around gap-2">
 
           {loading? 
-          (<p>Loading...</p>)
+          (<div class="loader border-t-2 rounded-full border-gray-500 bg-gray-300 animate-spin
+            aspect-square w-8 flex justify-center items-center text-yellow-700"></div>)
           :(
             cards ? (
               cards.map((card) => card.type =='DEBIT' &&
@@ -90,7 +93,8 @@ function Cards() {
         </h2>
         <div className="flex flex-wrap justify-around gap-2">
            {loading? 
-          (<p>Loading...</p>)
+          (<div class="loader border-t-2 rounded-full border-gray-500 bg-gray-300 animate-spin
+            aspect-square w-8 flex justify-center items-center text-yellow-700"></div>)
           :(
             cards ? (
               cards.map((card) => card.type =='CREDIT' &&

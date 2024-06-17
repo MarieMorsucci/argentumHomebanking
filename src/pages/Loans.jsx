@@ -8,7 +8,6 @@ import axios from "axios";
 function Loans() {
   //Va a venir por prop directamente el usuario
 
-  
   useEffect(() => {
     setTimeout(() => {
       getLoans();
@@ -17,38 +16,40 @@ function Loans() {
 
   const [loading, setLoading] = useState(true);
 
+  const [isActive, setIsActive] = useState(true);
   const [loans, setLoans] = useState({
-    id:'',
-    amount:'',
-    payments:'',
-    loan_name:''
+    id: "",
+    amount: "",
+    payments: "",
+    loan_name: "",
   });
 
   const token = useSelector((store) => store.authReducer.user.token);
 
   async function getLoans() {
     try {
-      let response = await axios.get("http://localhost:8080/api/auth/current",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-        }
-      })
+      let response = await axios.get("http://localhost:8080/api/auth/current", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       let data = response.data.loans;
       console.log(data);
+
       setLoans(data);
 
+      console.log(loans);
+      console.log(loans.length);
+
+      if (loans.length >= 5) {
+        setIsActive(false);
+      }
 
       setLoading(false);
-
-
     } catch (error) {
       console.error(error);
-      
     }
   }
-
-
 
   return (
     <div className="p-3 flex flex-col justify-center">
@@ -60,26 +61,37 @@ function Loans() {
       </div>
 
       <div className="p-5 flex flex-wrap justify-around gap-4">
+        {loading ? (
+          <div class="loader border-t-2 rounded-full border-gray-500 bg-gray-300 animate-spin
+          aspect-square w-8 flex justify-center items-center text-yellow-700"></div>
+        ) : (
+          loans.map((loan) => (
+            <Loan
+              key={loan.id}
+              id={loan.id}
+              amount={loan.amount}
+              payments={loan.payments}
+              loan_name={loan.loan_name}
+            />
+          ))
+        )}
+      </div>
+      {isActive && 
+        <div className="flex flex-wrap justify-center p-6">
+          <p className=" p-2 font-semibold text-center w-full ">
+            Make your dreams true! Get a loan!
+          </p>
 
-        {loading ? 
-        (<p>Loading</p>)
-        :
-        (
-        loans.map((loan)=> 
-        <Loan key={loan.id} id={loan.id} amount={loan.amount} payments={loan.payments} loan_name={loan.loan_name}/>
-        )
-      )}
-       
-      </div>
-      <div className="flex flex-wrap justify-center p-6">
-        <p className=" p-2 font-semibold text-center w-full ">
-          Make your dreams true! Get a loan!
-        </p>
-        <button className="bg-gradient-to-r from-sky-700 to-lime-500 hover:from-sky-800 hover:to-lime-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
-          <LinkRR className={({ isActive, isPending }) =>
-    isPending ? "pending" : isActive ? "active" : "" } to="/loans/apply">Apply Now!</LinkRR>
-        </button>
-      </div>
+          <button className="bg-gradient-to-r from-sky-700 to-lime-500 hover:from-sky-800 hover:to-lime-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+            <LinkRR
+              className={(isActive) => (isActive ? "active" : "disable")}
+              to="/loans/apply"
+            >
+              Apply Now!
+            </LinkRR>
+          </button>
+        </div>
+      }
     </div>
   );
 }

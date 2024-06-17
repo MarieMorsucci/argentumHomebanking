@@ -1,76 +1,75 @@
 import React from "react";
-import BannerCarrousel from "../components/BannerCarrousel";
-import { NavLink as LinkRR } from "react-router-dom";
+import { NavLink as LinkRR, Navigate, useNavigate } from "react-router-dom";
 
 import BenefitCard from "../components/BenefitCard";
 import Login from "./Login";
+import Register from "./Register";
 
 function Landing() {
+  const navigate = useNavigate();
+
+  function handleLogin() {
+    navigate("/login");
+  }
+  function handleRegister() {
+    navigate("/register");
+  }
+
   const benefits = [
     {
-      title: "Bajas Comisiones",
+      title: "Low Commissions",
       description:
-        "Ofrecemos las tasas más bajas del mercado para que ahorres más.",
+        "We offer the lowest rates on the market so you can save more.",
       icon: "💰",
     },
     {
-      title: "Atención 24/7",
-      description: "Soporte en línea las 24 horas, los 7 días de la semana.",
+      title: "Open to public 24/7",
+      description: "Online support during the week, all day!!",
       icon: "🕒",
     },
     {
-      title: "Seguridad Avanzada",
-      description: "Protegemos tus datos con la más alta seguridad.",
+      title: "Security is our first occupation",
+      description: "We protect your data with the highest security.",
       icon: "🔒",
     },
   ];
 
   return (
-    <div className="relative h-screen w-full">
+    <div className=" flex content-between relative h-screen w-full">
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('https://via.placeholder.com/1500')" }}
-      ></div>
-        <h1 className="text-5xl font-bold mb-8 z-1">Bienvenido a ArgentumBank</h1>
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white bg-black bg-opacity-50">
-        <div className="flex ">
-          <div>
-            <button className="w-28 h-12 text-white font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg shadow-lg hover:scale-105 duration-200 hover:drop-shadow-2xl hover:shadow-[#7dd3fc] hover:cursor-pointer">
-            <LinkRR
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to="/login"
-            >
-              Login
-            </LinkRR>
-            </button>
-            <button className="w-28 h-12 text-white font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg shadow-lg hover:scale-105 duration-200 hover:drop-shadow-2xl hover:shadow-[#7dd3fc] hover:cursor-pointer">
-            <LinkRR
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to="/register"
-            >
-              Sign Up!
-            </LinkRR>
-            </button>
-          </div>
+        className="absolute inset-0 bg-cover bg-center -z-10"
+        style={{
+          backgroundImage:
+            "url('https://img.freepik.com/foto-gratis/vista-frontal-colega-trabajo-mirando-portatil_23-2148327004.jpg')",
+        }}
+      >
+        <div className="flex p-3 justify-end gap-3 bg-slate-800 opacity-70 z-10">
+          <button
+            type="submit"
+            onClick={handleLogin}
+            className="bg-gradient-to-r from-sky-800 to-gray-400 hover:from-sky-900 hover:to-gray-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
+          >
+            LOGIN
+          </button>
+
+          <button
+            type="submit"
+            onClick={handleLogin}
+            className="bg-gradient-to-r from-sky-800 to-gray-400 hover:from-sky-900 hover:to-gray-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
+          >
+            REGISTER
+          </button>
         </div>
-        <div className="w-full max-w-4xl mb-8">
-          <BannerCarrousel />
-          {/* <div>
-              <img src="https://via.placeholder.com/800x400" alt="Carousel 1" />
-            </div>
-            <div>
-              <img src="https://via.placeholder.com/800x400" alt="Carousel 2" />
-            </div>
-            <div>
-              <img src="https://via.placeholder.com/800x400" alt="Carousel 3" />
-            </div> */}
-          {/* </BannerCarrousel> */}
+        <div className="flex justify-center p-6">
+          <img
+            src="/assets/images/argentum_logo.png"
+            className="h-[150px] md:min-h-[300px] object-contain rounded-md"
+            alt="logo"
+          />
         </div>
-        <div className="flex space-x-4 mb-8">
+      </div>
+      <div className="w-full z-10 flex flex-col content-end justify-end h-full text-white bg-opacity-50">
+        <div className="  flex flex-wrap justify-center mb-8 bg-slate-800 opacity-70 p-4 pt-6  gap-4">
           {benefits.map((benefit, index) => (
             <BenefitCard key={index} benefit={benefit} />
           ))}
