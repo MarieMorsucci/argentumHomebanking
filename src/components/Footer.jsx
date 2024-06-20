@@ -3,14 +3,6 @@ import { useEffect } from 'react'
 
 function Footer() {
 
-  useEffect(() => {
-
-    console.log('Me monte')
-
-    return()=>{
-      console.log('Me desmonte')
-    }
-  }, [])
   
   return (
     <footer className="min-h-[50px] min-w-screen bg-cyan-950 flex">

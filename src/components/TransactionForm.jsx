@@ -4,6 +4,7 @@ import Options from "../components/Options";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function TransactionForm(event) {
   useEffect(() => {
@@ -21,12 +22,11 @@ function TransactionForm(event) {
 
   //  PARA EL POST
   const [balance, setBalance] = useState(0);
-  
+
   const [sourceAccount, setSourceAccount] = useState("");
   const [destinationAccount, setDestinationAccount] = useState("");
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
-
 
   const token = useSelector((store) => store.authReducer.user.token);
 
@@ -49,7 +49,7 @@ function TransactionForm(event) {
     }
   }
 
-  //HACER AUTOMATICOS LOS LOANS
+  //HACER AUTOMATICOS LAS CUENTAS
   function getSelectedOption(event) {
     event.preventDefault();
     const accountSource = event.target.value;
@@ -69,42 +69,50 @@ function TransactionForm(event) {
   }, [selectedNumberAccount, sourceAccount]);
 
   async function makeTransaction(event) {
-
     event.preventDefault();
 
-    let click = confirm("Are you sure to apply to this loan?");
-        
-        if (click) {
-          try {
-            const createTransaction = {
-              amount: amount,
-              description: `${description}`,
-              originNumber: `${sourceAccount}`,
-             destinationNumber: `${destinationAccount}`
-            };
-            console.log(createTransaction);
-    
-            const send = await axios.post(
-              "http://localhost:8080/api/transactions/current/transaction", createTransaction,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-    
-            console.log(send.data);
-    
-            alert("Your transaction has been sent successfully");
-            setTimeout(() => {
-              navigate("/home");
-            }, 3000);
-          } catch (error) {
-            alert("Form is not valid. Check info and Terms&Conditions");
-            console.log(error);
+    let click = confirm("Do you confirm the transaction?");
+
+    if (click) {
+      try {
+        const createTransaction = {
+          amount: amount,
+          description: `${description}`,
+          originNumber: `${sourceAccount}`,
+          destinationNumber: `${destinationAccount}`,
+        };
+        console.log(createTransaction);
+
+        const sent = await axios.post(
+          "http://localhost:8080/api/transactions/current/transaction",
+          createTransaction,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
+        );
+        if (sent) {
+          setTimeout(() => {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your transaction has been sent successfully",
+              showConfirmButton: false,
+            });
+            navigate("/home");
+          }, 3000);
         }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data}`,
+          footer: "",
+        });
+      }
     }
+  }
 
   return (
     <div className="p-6 h-screen flex items-center justify-center ">
@@ -168,11 +176,11 @@ function TransactionForm(event) {
             </label>
 
             <p className="italic p-8 text-red-600">
-              Max amount for this type of loan is ${balance && balance}
+              Max amount for this transaction is ${balance && balance}
             </p>
 
             <label htmlFor="description" className="p-2 w-full ">
-             Transaction Description
+              Transaction Description
               <input
                 className="w-full text-center font-bold"
                 type="text"

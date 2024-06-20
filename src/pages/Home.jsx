@@ -17,7 +17,7 @@ function Home() {
   //usar ruta del reducer tal cual es
 
   const token = useSelector((store) => store.authReducer.user.token);
-  console.log(token);
+ // console.log(token);
 
   useEffect(() => {
     getAccounts();
@@ -34,7 +34,7 @@ function Home() {
         }
       );
 
-      console.log(response);
+      //console.log(response);
       setAccounts(response.data.accounts);
 
       setName(response.data.firstName);
@@ -43,7 +43,7 @@ function Home() {
         setIsActive(false);
       }
 
-      console.log(accounts);
+      //console.log(accounts);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -54,12 +54,11 @@ function Home() {
 
     let click2 = Swal.fire({
       title: "Do you want to create another account?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      icon: "question",
       showCancelButton: false,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Confirm",
     });
 
     if (click2) {
@@ -73,9 +72,8 @@ function Home() {
             },
           }
         );
-        console.log(sent);
+        //console.log(sent);
 
-        // alert("Your request has been sent successfully");
         setTimeout(() => {
           Swal.fire({
             position: "center",
@@ -85,30 +83,33 @@ function Home() {
           });
           navigate("/home");
         }, 3000);
+
+
       } catch (error) {
-        setTimeout(() => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: `${error.response.data}`,
-            footer: "",
-          });
-          navigate("/home");
-        }, 2000);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data}`,
+          footer: "",
+        });
       }
     }
+
+
+    setTimeout(() => {
+      navigate("/home");
+    }, 2000);
   }
 
   return (
     <div className=" h-full flex flex-col grow justify-between ">
       <div className=" w-full ">
-
         <img
           src="/assets/images/im1.jpg"
           alt="image_bank"
           className="h-40 w-full object-cover"
         />
-        <h1  className=" font-bold text-center text-4xl text-[#A5BDDC] text-sky-950 p-2">
+        <h1 className=" font-bold text-center text-4xl text-[#A5BDDC] text-sky-950 p-2">
           Welcome to Argentum Bank {name}
         </h1>
       </div>

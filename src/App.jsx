@@ -55,7 +55,7 @@ const App = () => {
         }
 
         //para cualquier ruta que no sea las anteriores
-        {/* <Route path="*" element={<Navigate to="/" />} /> */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );

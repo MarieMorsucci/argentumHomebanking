@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 
 
@@ -21,21 +22,16 @@ function CardApply() {
 
   async function applyCard(event) {
     event.preventDefault();
-
-
-    let click = confirm("Are you sure to apply for another card?");
-
-    if (click) {
-
+     
       try {
-
+  
         const createCard={
           cardType:`${type}`,
           color: `${color}`
         }
-
-        console.log(createCard);
-
+  
+        //console.log(createCard);
+  
         const sent = await axios.post("http://localhost:8080/api/clients/current/cards",
          createCard,
           {
@@ -43,24 +39,38 @@ function CardApply() {
               Authorization: `Bearer ${token}`
           }
         })
-
-
-        console.log(sent.data);
-        alert("Your request has been sent successfully");
+  
+  
+      // console.log(sent.data);
+  
+  
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your request has been sent successfully",
+        showConfirmButton: false,
+      });
+  
+  
         setTimeout(() => {
          navigate("/cards");
         }, 3000);
-
+  
       } catch (error) {
-
-        alert(error.response.data)
-        console.log(error);
+  
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data}`,
+          footer: "",
+        });
+  
+    
+        //console.log(error);
         
       }
-
-
-
-
+      
+      if (click) {
 
     }
   }

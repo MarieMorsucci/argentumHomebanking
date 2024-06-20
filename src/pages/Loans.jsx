@@ -4,6 +4,7 @@ import BannerCarrousel from "../components/BannerCarrousel";
 import { NavLink as LinkRR } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Loans() {
   //Va a venir por prop directamente el usuario
@@ -34,12 +35,12 @@ function Loans() {
         },
       });
       let data = response.data.loans;
-      console.log(data);
+     // console.log(data);
 
       setLoans(data);
 
-      console.log(loans);
-      console.log(loans.length);
+      //console.log(loans);
+     // console.log(loans.length);
 
       if (loans.length >= 5) {
         setIsActive(false);
@@ -47,7 +48,15 @@ function Loans() {
 
       setLoading(false);
     } catch (error) {
-      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data}`,
+        footer: "",
+      });
+
+      //console.error(error);
     }
   }
 

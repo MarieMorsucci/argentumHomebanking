@@ -50,11 +50,19 @@ function AccountDetails() {
 
       setAccount(data.find((ac) => ac.id == id));
 
-      console.log(account);
+     // console.log(account);
 
       //setear en falso el cargar
       setLoading(false);
     } catch (error) {
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Something failed`,
+        footer: "",
+      });
+
       console.log(error);
     }
   }
@@ -74,10 +82,10 @@ function AccountDetails() {
             ></div>
           </tr>
         ) : account.transactions ? (
-          account.transactions.map((tran) => (
+          account.transactions.sort((a,b)=>b.id - a.id).map((tran) => (
             <TransactionRow
               key={tran.id}
-              date={tran.date}
+              date={new Date(tran.date).toLocaleDateString("es-ES")    }
               type={tran.type}
               amount={tran.amount}
               description={tran.description}

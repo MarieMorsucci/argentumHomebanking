@@ -2,9 +2,13 @@ import React from "react";
 import { NavLink as LinkRR } from "react-router-dom";
 
 function CardAccount({ id, numberAccount, balance }) {
+
+
+
+  
   return (
     <div
-      className="w-2/3 md:w-[350px] md:h-[175px] shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)] 
+      className="w-2/3 h-[175px] lg:w-[400px] lg:h-[250px] shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)] 
     flex justify-center text-white bg-gradient-to-r from-slate-400 via-sky-800
      to-slate-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300
       dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-2 py-2.5 text-center me-2 mb-2"

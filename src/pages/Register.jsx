@@ -1,5 +1,6 @@
 import React from "react";
 import ClientApply from "../components/ClientApply";
+import Swal from "sweetalert2";
 
 function Register() {
   return (

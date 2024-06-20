@@ -4,6 +4,7 @@ import { NavLink as LinkRR, Navigate, useNavigate } from "react-router-dom";
 import BenefitCard from "../components/BenefitCard";
 import Login from "./Login";
 import Register from "./Register";
+import Swal from "sweetalert2";
 
 function Landing() {
   const navigate = useNavigate();

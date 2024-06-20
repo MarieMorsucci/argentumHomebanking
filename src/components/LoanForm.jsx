@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import Options from "../components/Options";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -64,7 +64,7 @@ function LoanForm(event) {
   function getSelectedOption(event) {
     //event.preventDefault();
     const loanName = event.target.value;
-    console.log(loanName);
+    //  console.log(loanName);
     setSelectedLoanName(loanName);
   }
 
@@ -73,52 +73,54 @@ function LoanForm(event) {
       const selectedLoan = loans.find((loan) => loan.name == selectedLoanName);
       setLoan(selectedLoan);
 
-      console.log(selectedLoan);
-      console.log(loan);
+      // console.log(selectedLoan);
+      // console.log(loan);
     }
   }, [selectedLoanName, loan]);
 
   async function applyLoan(event) {
     event.preventDefault();
 
-    let click = confirm("Are you sure to apply to this loan?");
+    try {
+      const createClientLoan = {
+        name: `${selectedLoanName}`,
+        amountApply: amount,
+        paymentsApply: payments,
+        accountNumber: `${destinationAccount}`,
+      };
+      // console.log(createClientLoan);
 
-    if (click) {
-      try {
-        const createClientLoan = {
-          name: `${selectedLoanName}`,
-          amountApply: amount,
-          paymentsApply: payments,
-          accountNumber: `${destinationAccount}`,
-        };
-        console.log(createClientLoan);
+      const send = await axios.post(
+        "http://localhost:8080/api/loans/current/apply",
+        createClientLoan,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        const send = await axios.post("http://localhost:8080/api/loans/current/apply",createClientLoan,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      //  console.log(send.data);
 
-        console.log(send.data);
+      //alert("Your request has been sent successfully");
 
+      setTimeout(() => {
         Swal.fire({
-          title: 'Error!',
-          text: 'Do you want to continue',
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-        //alert("Your request has been sent successfully");
+          position: "center",
+          icon: "success",
+          title: "Your request has been sent successfully",
+          showConfirmButton: false,
+        });
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: '"Form is not valid. Check info and Terms&Conditions"',
+        icon: "error",
+        confirmButtonText: "Cool",
+      });
 
-        setTimeout(() => {
-          navigate("/loans");
-        }, 3000);
-
-      } catch (error) {
-        alert("Form is not valid. Check info and Terms&Conditions");
-        console.log(error);
-      }
+      // console.log(error);
     }
   }
 

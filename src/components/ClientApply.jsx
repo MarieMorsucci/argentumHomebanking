@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ButtonTermsAndConditions from "./ButtonTermsAndConditions";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function ClientApply() {
   useEffect(() => {
@@ -29,7 +30,15 @@ function ClientApply() {
 
   async function applyAccount(event) {
     event.preventDefault();
-    let click = confirm("Are you sure to apply for an account?");
+    
+    let click = Swal.fire({
+      title: "Do you want to apply for an account?",
+      icon: "question",
+      showCancelButton: false,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm",
+    });
 
     if (click) {
       const createClient = {
@@ -39,17 +48,24 @@ function ClientApply() {
         password: `${password}`,
       };
 
-      console.log(createClient);
+     // console.log(createClient);
 
       const send = await axios.post(
         "http://localhost:8080/api/auth/signup",
         createClient
       );
 
-      console.log(send.data);
+     // console.log(send.data);
 
-      alert("Your request has been sent successfully");
       setTimeout(() => {
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your request has been sent successfully",
+          showConfirmButton: false,
+        });
+
         navigate("/");
       }, 3000);
     }

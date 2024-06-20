@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { NavLink as LinkRR } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 function Cards() {
   //Va a venir por prop directamente el usuario
@@ -40,13 +41,18 @@ function Cards() {
       );
 
       let data = response.data;
-      console.log(data);
+     // console.log(data);
       setCards(data);
-      console.log(cards);
+     // console.log(cards);
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Something failed`,
+        footer: "",
+      });
     }
   }
 
