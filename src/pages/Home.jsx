@@ -26,7 +26,7 @@ function Home() {
   async function getAccounts() {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/auth/current",
+        "https://argentumhomebanking.onrender.com/api/auth/current",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,7 +64,7 @@ function Home() {
     if (click2) {
       try {
         const sent = await axios.post(
-          "http://localhost:8080/api/clients/current/accounts",
+          "https://argentumhomebanking.onrender.com/api/clients/current/accounts",
           {},
           {
             headers: {

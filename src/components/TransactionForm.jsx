@@ -33,7 +33,7 @@ function TransactionForm(event) {
   async function getAccounts() {
     try {
       //OBTENER LAS CUENTAS DE USUARIO
-      let response = await axios.get("http://localhost:8080/api/auth/current", {
+      let response = await axios.get("https://argentumhomebanking.onrender.com/api/auth/current", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,7 +84,7 @@ function TransactionForm(event) {
         console.log(createTransaction);
 
         const sent = await axios.post(
-          "http://localhost:8080/api/transactions/current/transaction",
+          "https://argentumhomebanking.onrender.com/api/transactions/current/transaction",
           createTransaction,
           {
             headers: {

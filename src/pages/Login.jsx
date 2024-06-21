@@ -31,7 +31,7 @@ function Login() {
 
       //Hacer el login con axios
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        "https://argentumhomebanking.onrender.com/api/auth/login",
         user
       );
 
@@ -39,7 +39,7 @@ function Login() {
       //console.log(token);
       //para el get: primer arg el endpoint de la api, segundo las configuraciones donde va el header que va a tener el token
       const responseCurrent = await axios.get(
-        "http://localhost:8080/api/auth/current",
+        "https://argentumhomebanking.onrender.com/api/auth/current",
         {
           headers: {
             Authorization: `Bearer ${token}`,

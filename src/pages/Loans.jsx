@@ -29,7 +29,7 @@ function Loans() {
 
   async function getLoans() {
     try {
-      let response = await axios.get("http://localhost:8080/api/auth/current", {
+      let response = await axios.get("https://argentumhomebanking.onrender.com/api/auth/current", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

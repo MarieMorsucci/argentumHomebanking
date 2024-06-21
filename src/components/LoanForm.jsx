@@ -32,7 +32,7 @@ function LoanForm(event) {
     try {
       //OBTENER LOS LOANS DISPONIBLES
 
-      let response = await axios.get("http://localhost:8080/api/loans/", {
+      let response = await axios.get("https://argentumhomebanking.onrender.com/api/loans/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,7 +44,7 @@ function LoanForm(event) {
       console.log(loans);
 
       //OBTENER LAS CUENTAS DE USUARIO
-      let respon = await axios.get("http://localhost:8080/api/auth/current", {
+      let respon = await axios.get("https://argentumhomebanking.onrender.com/api/auth/current", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,7 +91,7 @@ function LoanForm(event) {
       // console.log(createClientLoan);
 
       const send = await axios.post(
-        "http://localhost:8080/api/loans/current/apply",
+        "https://argentumhomebanking.onrender.com/api/loans/current/apply",
         createClientLoan,
         {
           headers: {

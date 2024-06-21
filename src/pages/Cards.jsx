@@ -32,7 +32,7 @@ function Cards() {
   async function getCards() {
     try {
       let response = await axios.get(
-        "http://localhost:8080/api/clients/current/cards",
+        "https://argentumhomebanking.onrender.com/api/clients/current/cards",
         {
           headers: {
             Authorization: `Bearer ${token}`,
